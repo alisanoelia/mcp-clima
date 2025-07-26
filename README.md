@@ -40,3 +40,7 @@ Replace `/path/mcp-clima/build/index.js` with the actual path to your build dire
 ---
 
 For more information or support, please refer to the repository or create an Issue in this repository.
+
+## Thanks
+
+[OpenWeatherMap](https://openweathermap.org)
