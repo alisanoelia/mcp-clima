@@ -5,7 +5,7 @@ import { z } from "zod";
 
 const server = new McpServer({
   name: "Clima",
-  version: "0.2.0",
+  version: "0.3.0",
 });
 
 server.tool(
@@ -15,9 +15,15 @@ server.tool(
     city: z.string().describe("City name"),
   },
   async ({ city }) => {
+    // obtener la latitud y longitud de la ciudad usando la API de Open-Meteo Geocoding
+
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
+    const geoResponse = await fetch(geoUrl);
+    const geoData = await geoResponse.json();
+    const latitude = geoData.results[0].latitude;
+    const longitude = geoData.results[0].longitude;
     try {
-      const apikey = process.env.OPEN_WEATHER_MAP_KEY;
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},co&appid=${apikey}&units=metric&lang=es`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weather_code,visibility,uv_index`;
 
       const response = await fetch(url);
 
