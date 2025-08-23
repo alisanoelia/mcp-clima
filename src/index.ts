@@ -5,18 +5,16 @@ import { z } from "zod";
 
 const server = new McpServer({
   name: "Clima",
-  version: "0.4.0",
+  version: "0.4.1",
 });
 
 server.tool(
   "getWeather",
-  "Solicito los siguientes datos meteorológicos para el día actual: temperatura, sensación térmica, probabilidad de lluvia, temperatura máxima y mínima. Además, requiero los mismos datos para los próximos tres días. La respuesta debe ser clara y estructurada por día, facilitando la comparación entre ellos.",
+  "Solicito los siguientes datos meteorológicos para el día actual y los próximos tres días: temperatura, sensación térmica, probabilidad de lluvia, temperatura máxima y mínima. La sensación térmica debe incluirse para cada día, no solo para el día actual. La respuesta debe ser clara y estructurada por día, facilitando la comparación entre ellos.",
   {
     city: z.string().describe("City name"),
   },
   async ({ city }) => {
-    // obtener la latitud y longitud de la ciudad usando la API de Open-Meteo Geocoding
-
     const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1`;
     const geoResponse = await fetch(geoUrl);
     const geoData = await geoResponse.json();
