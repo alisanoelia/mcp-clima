@@ -5,12 +5,12 @@ import { z } from "zod";
 
 const server = new McpServer({
   name: "Clima",
-  version: "0.3.0",
+  version: "0.4.0",
 });
 
 server.tool(
   "getWeather",
-  "Get weather information for a city",
+  "Solicito los siguientes datos meteorológicos para el día actual: temperatura, sensación térmica, probabilidad de lluvia, temperatura máxima y mínima. Además, requiero los mismos datos para los próximos tres días. La respuesta debe ser clara y estructurada por día, facilitando la comparación entre ellos.",
   {
     city: z.string().describe("City name"),
   },
@@ -23,7 +23,7 @@ server.tool(
     const latitude = geoData.results[0].latitude;
     const longitude = geoData.results[0].longitude;
     try {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weather_code,visibility,uv_index`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weather_code,visibility,uv_index&timezone=auto`;
 
       const response = await fetch(url);
 
